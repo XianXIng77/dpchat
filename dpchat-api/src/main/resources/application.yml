@@ -1,0 +1,45 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: dpchat-api
+  sql:
+    init:
+      mode: never
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/dpchatdb?useSSL=false&serverTimezone=UTC&characterEncoding=utf8
+    username: root  # 默认MySQL用户名，根据实际情况修改
+    password: 123  # 默认密码，根据实际情况修改
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # AI模型配置
+  ai:
+    ollama:
+      base-url: http://127.0.0.1:11434
+      chat:
+        model: modelscope.cn/unsloth/DeepSeek-R1-Distill-Qwen-1.5B-GGUF:Q4_K_M
+
+
+# MyBatis-Plus配置
+mybatis-plus:
+  # 配置Mapper接口所在包路径
+  mapper-locations: classpath:mapper/**/*.xml
+  # 配置实体类所在包路径 - 已修正为正确的包路径
+  type-aliases-package: com.example.dpchatapi.entity
+  configuration:
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 打印SQL日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 全局配置
+  global-config:
+    db-config:
+      # 表名下划线命名
+      table-underline: true
+      # 主键类型：AUTO(自增)
+      id-type: AUTO
+
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor: debug
